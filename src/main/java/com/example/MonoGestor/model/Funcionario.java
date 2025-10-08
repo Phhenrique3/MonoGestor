@@ -4,6 +4,8 @@ package com.example.MonoGestor.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "Funcionario")
 @Getter
@@ -22,9 +24,9 @@ public class Funcionario {
     private String nome;
     private String cpf;
     private String email;
-    private String dataAdmissao;
+    private LocalDate dataAdmissao;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "departamento_id")
-    private Departamento departamento;
+    private Departamento departamentoId;
 }
