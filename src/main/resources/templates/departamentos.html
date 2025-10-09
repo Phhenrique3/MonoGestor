@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Departamentos</title>
+    <link rel="stylesheet" href="/css/style.css"> <!-- opcional -->
+</head>
+<body>
+<h1>Lista de Departamentos</h1>
+
+<!-- Form para criar novo departamento -->
+<form th:action="@{/departamentos}" method="post">
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" name="nome" required>
+
+    <label for="localizacao">Localização:</label>
+    <input type="text" id="localizacao" name="localizacao" required>
+
+    <button type="submit">Adicionar</button>
+</form>
+
+<hr>
+
+<!-- Lista de departamentos -->
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Localização</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="departamento : ${departamentos}">
+        <td th:text="${departamentos.id}"></td>
+        <td th:text="${departamentos.nome}"></td>
+        <td th:text="${departamentos.localizacao}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

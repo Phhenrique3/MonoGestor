@@ -1,14 +1,15 @@
 package com.example.MonoGestor.service;
 
-import com.example.MonoGestor.dto.FuncionarioDto;
 import com.example.MonoGestor.exception.ResourceNotFoundException;
 import com.example.MonoGestor.model.Departamento;
 import com.example.MonoGestor.model.Funcionario;
 import com.example.MonoGestor.repository.DepartamentoRepository;
 import com.example.MonoGestor.repository.FuncionarioRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class FuncionarioService {
 
     private final FuncionarioRepository repo;
@@ -30,8 +31,8 @@ public class FuncionarioService {
     }
 
 
-    public Funcionario create(FuncionarioDto dto) {
-        Departamento d = depRepo.findById(dto.getDepartamentoId())
+    public Funcionario create(Funcionario dto) {
+        Departamento d = depRepo.findById(dto.getDepartamentoId().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Departamento não encontrado"));
         Funcionario f = Funcionario.builder()
                 .nome(dto.getNome()).email(dto.getEmail())
@@ -40,9 +41,9 @@ public class FuncionarioService {
         return repo.save(f);
     }
 
-    public Funcionario Atualizar(Long id, FuncionarioDto dto) {
+    public Funcionario Atualizar(Long id, Funcionario dto) {
         Funcionario f = buscarPorId(id);
-        Departamento departamento = depRepo.findById(dto.getDepartamentoId())
+        Departamento departamento = depRepo.findById(dto.getDepartamentoId().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Departamento não encontrado"));
 
         f.setNome(dto.getNome());
