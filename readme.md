@@ -1,153 +1,97 @@
-MonoGestor
+🧭 MonoGestor
+MonoGestor é um sistema completo de gestão de Departamentos e Funcionários, desenvolvido com Spring Boot, Thymeleaf, JPA/Hibernate e banco de dados relacional. O projeto oferece uma interface web para administração e uma API REST para integração externa.
 
-Projeto MonoGestor – Sistema de Gestão de Departamentos e Funcionários, construído com Spring Boot, Thymeleaf, JPA/Hibernate e banco de dados relacional.
+🚀 Tecnologias Utilizadas
+✅ Java 17+
 
-Este projeto possui front-end via Thymeleaf e API REST para consumo externo.
+✅ Spring Boot 3+
 
-🔹 Tecnologias Utilizadas
+✅ Spring Data JPA
 
-Java 17+
+✅ Thymeleaf
 
-Spring Boot 3+
+✅ Lombok
 
-Spring Data JPA
+✅ H2 / MySQL (ou outro banco relacional)
 
-Thymeleaf
+✅ Maven
 
-Lombok
+🛠️ Como Rodar o Projeto
+1. Clone o repositório
+   bash
+   git clone https://github.com/Phhenrique3/MonoGestor.git
+2. Abra no seu IDE favorito
+   Compatível com IntelliJ, Eclipse, VSCode, etc.
 
-H2 / MySQL (ou outro banco)
+3. Configure o banco de dados em application.properties
+   properties
+   spring.datasource.url=jdbc:mysql://localhost:3306/monogestor
+   spring.datasource.username=root
+   spring.datasource.password=root
+   spring.jpa.hibernate.ddl-auto=update
+   💡 Você pode usar H2 para testes locais ou outro banco relacional de sua preferência.
 
-Maven
+4. Execute a aplicação
+   bash
+   mvn spring-boot:run
+   🌐 Acesso via Navegador
+   Front-end (Thymeleaf):
 
-🔹 Rodando o Projeto
+http://localhost:8080/departamentos
 
-Clone o repositório:
+http://localhost:8080/funcionarios
 
-git clone https://github.com/Phhenrique3/MonoGestor.git
+API REST (JSON):
 
+http://localhost:8080/departamentos-html
 
-Abra no seu IDE (IntelliJ, Eclipse, VSCode).
+http://localhost:8080/funcionarios-html
 
-Configure o banco de dados em application.properties:
-
-spring.datasource.url=jdbc:mysql://localhost:3306/monogestor
-spring.datasource.username=root
-spring.datasource.password=root
-spring.jpa.hibernate.ddl-auto=update
-
-
-Execute a aplicação:
-
-mvn spring-boot:run
-
-
-Acesse no navegador:
-
-Front-end: http://localhost:8080/departamentos
-e http://localhost:8080/funcionarios
-
-API REST: http://localhost:8080/departamentos-html
-e http://localhost:8080/funcionarios-html
-
-🔹 Rotas do Front-End (Thymeleaf)
-Departamentos
+📋 Rotas do Front-End (Thymeleaf)
+🔹 Departamentos
 Método	URL	Descrição
-GET	/departamentos	Lista todos os departamentos e exibe formulário
+GET	/departamentos	Lista todos os departamentos
 POST	/departamentos/salvar	Cria ou atualiza um departamento
 GET	/departamentos/editar/{id}	Carrega departamento para edição
 POST	/departamentos/deletar/{id}	Deleta um departamento
-Funcionários
+🔹 Funcionários
 Método	URL	Descrição
-GET	/funcionarios	Lista todos os funcionários e exibe formulário
+GET	/funcionarios	Lista todos os funcionários
 POST	/funcionarios/add	Adiciona um novo funcionário
 GET	/funcionarios/edit/{id}	Carrega funcionário para edição
 POST	/funcionarios/update/{id}	Atualiza funcionário
 POST	/funcionarios/delete/{id}	Deleta funcionário
-🔹 Rotas da API REST (JSON)
-Departamentos
+📡 Rotas da API REST (JSON)
+🔹 Departamentos
+Listar todos: GET /departamentos-html
 
-Listar todos os departamentos
+Buscar por ID: GET /departamentos-html/{id}
 
-GET /departamentos-html
+Criar: POST /departamentos-html
 
+Atualizar: PUT /departamentos-html/{id}
 
-Exemplo de resposta:
+Deletar: DELETE /departamentos-html/{id}
 
-[
-{
-"id": 1,
-"nome": "TI",
-"localizacao": "São Paulo"
-}
-]
-
-
-Buscar departamento por ID
-
-GET /departamentos-html/{id}
-
-
-Exemplo de resposta:
-
-{
-"id": 1,
-"nome": "TI",
-"localizacao": "São Paulo"
-}
-
-
-Criar departamento
-
-POST /departamentos-html
-Content-Type: application/json
-
-
-Exemplo de request:
-
+📦 Exemplo de criação
+json
 {
 "nome": "Financeiro",
 "localizacao": "Rio de Janeiro"
 }
+🔹 Funcionários
+Listar todos: GET /funcionarios-html
 
+Buscar por ID: GET /funcionarios-html/{id}
 
-Atualizar departamento
+Criar: POST /funcionarios-html
 
-PUT /departamentos-html/{id}
+Atualizar: PUT /funcionarios-html/{id}
 
+Deletar: DELETE /funcionarios-html/{id}
 
-Exemplo de request:
-
-{
-"nome": "Financeiro Atualizado",
-"localizacao": "Rio de Janeiro"
-}
-
-
-Deletar departamento
-
-DELETE /departamentos-html/{id}
-
-Funcionários
-
-Listar todos os funcionários
-
-GET /funcionarios-html
-
-
-Buscar funcionário por ID
-
-GET /funcionarios-html/{id}
-
-
-Criar funcionário
-
-POST /funcionarios-html
-Content-Type: application/json
-
-
-Exemplo de request:
-
+📦 Exemplo de criação
+json
 {
 "nome": "Pedro Henrique",
 "cpf": "123.456.789-00",
@@ -157,34 +101,9 @@ Exemplo de request:
 "id": 1
 }
 }
+⚠️ Observações Importantes
+🔒 Validação de exclusão: Departamentos com funcionários vinculados não podem ser deletados via front-end (gera IllegalStateException).
 
+🛑 Tratamento global de erros: Implementado via GlobalExceptionHandler, com redirecionamento para a página error.html.
 
-Atualizar funcionário
-
-PUT /funcionarios-html/{id}
-
-
-Exemplo de request:
-
-{
-"nome": "Pedro H. Atualizado",
-"cpf": "123.456.789-00",
-"email": "pedro@empresa.com",
-"dataAdmissao": "2025-10-09",
-"departamento": {
-"id": 1
-}
-}
-
-
-Deletar funcionário
-
-DELETE /funcionarios-html/{id}
-
-🔹 Observações
-
-Validação de exclusão: Departamentos com funcionários não podem ser deletados via front-end (IllegalStateException).
-
-Tratamento global de erros via GlobalExceptionHandler com página error.html.
-
-Os campos de formulário são vinculados com th:field do Thymeleaf para criar e atualizar registros.
+🧩 Integração com Thymeleaf: Campos de formulário são vinculados com th:field para facilitar criação e edição de registros.
