@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Funcionários</title>
+    <style>
+        table { border-collapse: collapse; width: 90%; margin-bottom: 20px; }
+        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        form { margin-bottom: 20px; }
+        input, select { margin: 5px; padding: 5px; }
+    </style>
+</head>
+<body>
+
+<h1>Funcionários</h1>
+
+<!-- FORMULÁRIO PARA ADICIONAR FUNCIONÁRIO -->
+<h2 th:if="${funcionarioAtual == null}">Adicionar Novo Funcionário</h2>
+<h2 th:if="${funcionarioAtual != null}">Editar Funcionário</h2>
+
+<form th:if="${funcionarioAtual == null}" th:action="@{/funcionarios/add}" th:object="${novoFuncionario}" method="post">
+    <input type="text" th:field="*{nome}" placeholder="Nome" required/>
+    <input type="text" th:field="*{cpf}" placeholder="CPF" required/>
+    <input type="email" th:field="*{email}" placeholder="Email" required/>
+    <input type="date" th:field="*{dataAdmissao}" required/>
+    <select th:field="*{departamento.id}" required>
+        <option value="">Selecione Departamento</option>
+        <option th:each="dep : ${departamentos}" th:value="${dep.id}" th:text="${dep.nome}"></option>
+    </select>
+    <button type="submit">Adicionar</button>
+</form>
+
+<form th:if="${funcionarioAtual != null}" th:action="@{/funcionarios/update/{id}(id=${funcionarioAtual.id})}" th:object="${funcionarioAtual}" method="post">
+    <input type="text" th:field="*{nome}" placeholder="Nome" required/>
+    <input type="text" th:field="*{cpf}" placeholder="CPF" required/>
+    <input type="email" th:field="*{email}" placeholder="Email" required/>
+    <input type="date" th:field="*{dataAdmissao}" required/>
+    <select th:field="*{departamento.id}" required>
+        <option value="">Selecione Departamento</option>
+        <option th:each="dep : ${departamentos}" th:value="${dep.id}" th:text="${dep.nome}"
+                th:selected="${funcionarioAtual.departamento != null} ? ${funcionarioAtual.departamento.id} == ${dep.id} : false"></option>
+    </select>
+    <button type="submit">Atualizar</button>
+</form>
+
+<!-- TABELA DE FUNCIONÁRIOS -->
+<h2>Lista de Funcionários</h2>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>CPF</th>
+        <th>Email</th>
+        <th>Data Admissão</th>
+        <th>Departamento</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="funcionario : ${funcionarios}">
+        <td th:text="${funcionario.id}"></td>
+        <td th:text="${funcionario.nome}"></td>
+        <td th:text="${funcionario.cpf}"></td>
+        <td th:text="${funcionario.email}"></td>
+        <td th:text="${funcionario.dataAdmissao}"></td>
+        <td th:text="${funcionario.departamento != null ? funcionario.departamento.nome : 'Sem departamento'}"></td>
+        <td>
+            <a th:href="@{/funcionarios/edit/{id}(id=${funcionario.id})}">Editar</a> |
+            <a th:href="@{/funcionarios/delete/{id}(id=${funcionario.id})}" onclick="return confirm('Deseja realmente deletar?')">Deletar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

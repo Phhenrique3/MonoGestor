@@ -18,28 +18,28 @@ public class DepartamentoController {
         this.service = service;
     }
 
-    // 🟢 LISTAR todos os departamentos
+    //  LISTAR todos os departamentos
     @GetMapping
     public List<Departamento> listar() {
         return service.buscarTodos();
     }
 
-    // 🔵 BUSCAR um departamento por ID
+    // BUSCAR um departamento por ID
     @GetMapping("/{id}")
     public Departamento buscarPorId(@PathVariable Long id) {
         return service.buscarPorId(id);
     }
 
-    // 🟠 CRIAR um novo departamento
+    //  CRIAR um novo departamento
     @PostMapping
     public Departamento criar(@RequestBody DepartamentoDto dto) {
-        return service.create(dto);
+        return service.criar(dto);
     }
 
     // 🟣 ATUALIZAR um departamento existente
     @PutMapping("/{id}")
     public Departamento atualizar(@PathVariable Long id, @RequestBody DepartamentoDto dto) {
-        return service.Atualizar(id, dto);
+        return service.atualizar(id, dto);
     }
 
     // 🔴 DELETAR um departamento

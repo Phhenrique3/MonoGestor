@@ -1,9 +1,7 @@
 package com.example.MonoGestor.model;
 
-
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDate;
 
 @Entity
@@ -18,8 +16,7 @@ public class Funcionario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    private long Id;
+    private long id;
 
     private String nome;
     private String cpf;
@@ -28,5 +25,5 @@ public class Funcionario {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "departamento_id")
-    private Departamento departamentoId;
+    private Departamento departamento; // Objeto Departamento
 }

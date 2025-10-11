@@ -2,16 +2,16 @@ package com.example.MonoGestor.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.List;
 
 @Entity
-@Table(name = "Departamento")
+@Table(name = "departamento")
 @Getter
 @Setter
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-
 public class Departamento {
 
     @Id
@@ -21,5 +21,7 @@ public class Departamento {
     private String nome;
     private String localizacao;
 
-
+    // Relacionamento com Funcionarios
+    @OneToMany(mappedBy = "departamento", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Funcionario> funcionarios;
 }

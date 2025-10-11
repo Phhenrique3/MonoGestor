@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/funcionarios")
+@RequestMapping("/funcionarios-html")
 public class FuncionarioController {
 
     private final FuncionarioService service;
@@ -35,7 +35,7 @@ public class FuncionarioController {
     // Corrigido: removida a barra dentro das chaves
     @PutMapping("/{id}")
     public Funcionario atualizar(@PathVariable Long id, @RequestBody Funcionario funcionario) {
-        return service.Atualizar(id, funcionario);
+        return service.atualizar(id, funcionario);
     }
 
     // Corrigido: adicionado o path /{id} para deletar corretamente

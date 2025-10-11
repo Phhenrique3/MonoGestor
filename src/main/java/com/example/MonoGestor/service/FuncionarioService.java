@@ -15,10 +15,9 @@ public class FuncionarioService {
     private final FuncionarioRepository repo;
     private final DepartamentoRepository depRepo;
 
-    public FuncionarioService(FuncionarioRepository repo, DepartamentoRepository depReto) {
+    public FuncionarioService(FuncionarioRepository repo, DepartamentoRepository depRepo) {
         this.repo = repo;
-        this.depRepo = depReto;
-
+        this.depRepo = depRepo;
     }
 
     public List<Funcionario> listarFuncionarios() {
@@ -30,26 +29,34 @@ public class FuncionarioService {
                 .orElseThrow(() -> new ResourceNotFoundException("Funcionário com ID " + id + " não encontrado"));
     }
 
-
     public Funcionario create(Funcionario dto) {
-        Departamento d = depRepo.findById(dto.getDepartamentoId().getId())
+        // Busca o departamento correto
+        Departamento d = depRepo.findById(dto.getDepartamento().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Departamento não encontrado"));
+
         Funcionario f = Funcionario.builder()
-                .nome(dto.getNome()).email(dto.getEmail())
+                .nome(dto.getNome())
+                .cpf(dto.getCpf())
+                .email(dto.getEmail())
                 .dataAdmissao(dto.getDataAdmissao())
-                .departamentoId(d).build();
+                .departamento(d) // ⚡ agora é "departamento"
+                .build();
+
         return repo.save(f);
     }
 
-    public Funcionario Atualizar(Long id, Funcionario dto) {
+    public Funcionario atualizar(Long id, Funcionario dto) {
         Funcionario f = buscarPorId(id);
-        Departamento departamento = depRepo.findById(dto.getDepartamentoId().getId())
+
+        Departamento departamento = depRepo.findById(dto.getDepartamento().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Departamento não encontrado"));
 
         f.setNome(dto.getNome());
+        f.setCpf(dto.getCpf());
         f.setEmail(dto.getEmail());
         f.setDataAdmissao(dto.getDataAdmissao());
-        f.setDepartamentoId(departamento);
+        f.setDepartamento(departamento); // ⚡ agora é "departamento"
+
         return repo.save(f);
     }
 
